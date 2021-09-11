@@ -1,0 +1,64 @@
+<div class="container">
+  <button class="btn btn-primary m-4" (click)="AddProduct()">Agregar Producto</button>
+  <button class="btn btn-primary m-4" (click)="UpdateProduct()">Actualizar producto</button>
+  <ng-container *ngIf="isAddProduct">
+    <form [formGroup]="producto1Form" (ngSubmit)="onSubmitAdd()">
+
+      <div class="form-group col-md-4">
+        <label>Nombre:</label>
+        <input type="text" formControlName="Nombre" class="form-control" placeholder="Nombre">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Valor Venta Con Iva:</label>
+        <input type="number" formControlName="ValorVentaConIva" class="form-control">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Cantidad Unidades Inventario:</label>
+        <input type="number" formControlName="CantidadUnidadesInventario" class="form-control">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Porcentaje Iva aplicado:</label>
+        <input type="number" formControlName="PorcentajeIvaaplicado" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!producto1Form.valid">Guardar Producto</button>
+      <button type="submit" class="btn btn-danger ml-4" (click)="clear()">Cancelar</button>
+
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="isUpdateProduct">
+    <form [formGroup]="producto1Form" (ngSubmit)="onSubmitUpdate()">
+
+      <div>
+        <div>
+          <label>Seleccione un producto</label>
+        </div>
+        <select class="btn btn-secondary" (change)="onChange($event.target.value)">
+          <option value={{item.id}} *ngFor="let item of products[0]">
+            {{item.nombre}}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label>Nombre:</label>
+        <input type="text" formControlName="Nombre" class="form-control" placeholder="Nombre Producto">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Valor Venta Con Iva:</label>
+        <input type="number" formControlName="ValorVentaConIva" class="form-control">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Cantidad Unidades Inventario:</label>
+        <input type="number" formControlName="CantidadUnidadesInventario" class="form-control">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Porcentaje Iva Aplicado:</label>
+        <input type="number" formControlName="PorcentajeIvaaplicado" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!producto1Form.valid">Guardar Cambios</button>
+      <button type="submit" class="btn btn-danger ml-4" (click)="clear()">Cancelar</button>
+
+    </form>
+  </ng-container>
+</div>

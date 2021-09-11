@@ -1,0 +1,35 @@
+<nav>
+  <div class="sidebar_logo">
+    <img src="./../../../../assets/img/qLogo.png">
+  </div>
+
+  <ul class="sidebar_item">
+    <li>
+      <div>
+        <fa-icon [icon]="faAd"></fa-icon>
+      </div>
+      <div>
+        <a [routerLink]="[menuItems[0].path]">{{menuItems[0].title}}</a>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <fa-icon [icon]="faShoppingCart"></fa-icon>
+      </div>
+      <div>
+        <a [routerLink]="[menuItems[1].path]">{{menuItems[1].title}}</a>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <fa-icon [icon]="faMoneyBillWave"></fa-icon>
+      </div>
+      <div>
+        <a [routerLink]="[menuItems[2].path]">{{menuItems[2].title}}</a>
+      </div>
+    </li>
+
+  </ul>
+</nav>

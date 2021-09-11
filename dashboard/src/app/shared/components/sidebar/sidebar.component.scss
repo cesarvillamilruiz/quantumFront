@@ -1,0 +1,31 @@
+@import "./../../../../assets/styles/funtions.scss";
+
+@font-face {
+  font-family: Josefin Sans;
+  src: url(./../../../../assets/fonts/JosefinSans-VariableFont_wght.ttf);
+}
+
+nav {
+  color: $second_color;
+  background-color: $firt_color;
+  width: 20%;
+  height: 100vh;
+  margin-top: 0px;
+  position: fixed;
+  font-family: Josefin Sans;
+
+  .sidebar_logo img {
+    margin: 0 auto;
+    background-color: $firt_color;
+    width: 100%;
+    height: 100px;
+  }
+  .sidebar_item {
+    padding-left: 0;
+    padding-right: 2rem;
+  }
+  .sidebar_item li {
+    width: 80%;
+    @include displayFlex(row, space-around, center);
+  }
+}

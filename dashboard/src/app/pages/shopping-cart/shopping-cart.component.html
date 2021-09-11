@@ -1,0 +1,114 @@
+<div class="container">
+  <button class="btn btn-lg btn-outline-primary" (click)="open(content)">{{isAddProduct ? 'Seguir comprando' : 'Empezar compras'}} </button>
+  <button class="btn btn-lg btn-outline-primary m-4" [disabled]="!isAddProduct" (click)="Add()">Agregar datos</button>
+  <ng-container *ngIf="isContinueAddingProduct">
+    <form [formGroup]="personalDataForm" (ngSubmit)="onSubmitAddBill()">
+      <div class="col-md-6">
+        <div class="form-group col-md-12">
+          <label>Nombre:</label>
+          <input type="text" formControlName="Nombre" class="form-control" placeholder="Nombre">
+        </div>
+        <div class="form-group col-md-12">
+          <label>Apellido:</label>
+          <input type="text" formControlName="Apellido" class="form-control">
+        </div>
+        <div class="form-group col-md-12">
+          <label>Identificacion:</label>
+          <input type="number" formControlName="Identificacion" class="form-control">
+        </div>
+        <div class="form-group col-md-12">
+          <label><strong>Subtotal:{{Subtotal | currency}}</strong></label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group col-md-12">
+          <label>FechaEntrega:</label>
+          <input type="date" formControlName="FechaEntrega" class="form-control">
+        </div>
+        <div class="form-group col-md-12">
+          <label>Direccion:</label>
+          <input type="text" formControlName="Direccion" class="form-control">
+        </div>
+        <div class="form-group col-md-12">
+          <label>Telefono:</label>
+          <input type="number" formControlName="Telefono" class="form-control">
+        </div>
+        <div class="form-group col-md-12">
+          <label><strong>TotalVenta: {{TotalVenta | currency}}</strong></label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!personalDataForm.valid">Compra y Envió</button>
+      <button type="submit" class="btn btn-danger ml-4" (click)="clear(); clearList()">Cancelar</button>
+
+    </form>
+
+  </ng-container>
+
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Agregar al carrito</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click'); modal.close('Save click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="producto1Form" (ngSubmit)="onSubmitAddProductDetail()">
+
+        <div>
+          <div>
+            <label>Seleccione un producto</label>
+          </div>
+          <select class="btn btn-secondary" (change)="updateProductId($event.target.value)">
+            <option value={{item.id}}  *ngFor="let item of products[0]">
+              {{item.nombre}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label>Cantidad:</label>
+          <input type="number" class="form-control" (keyup)="updateProductQuantity($event.target.value)" (click)="updateProductQuantity($event.target.value)" (blur)="updateProductQuantity($event.target.value)">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label>Precio: <strong>{{currentProductToPrice | currency}}</strong></label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!producto1Form.valid" (click)="modal.close('Add')">Fin Agregar Productos</button>
+
+      </form>
+    </div>
+  </ng-template>
+
+  <div class="col-md-4">
+    <table class="table table-striped mt-4 col-md-5" *ngIf="productListToShow.length">
+      <thead>
+        <tr>
+          <th scope="col">Producto</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of productListToShow| slice: (page-1) * pageSize : page * pageSize; let i = index">
+          <td>{{item.Nombre}}</td>
+          <td>{{item.Cantidad}}</td>
+          <td>{{item.ValorTotalProducto | currency}}</td>
+          <td><button (click)="deleteByProductId(i)" class="btn btn-outline-danger">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ngb-pagination *ngIf="productListToShow.length" [(page)]="page" [pageSize]="pageSize"
+      [collectionSize]="productListToShow.length"></ngb-pagination>
+
+  </div>
+
+</div>
+
+

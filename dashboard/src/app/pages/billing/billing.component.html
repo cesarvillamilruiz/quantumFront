@@ -1,0 +1,91 @@
+<div class="container">
+  <button class="btn btn-success mt-3" (click)="test()">Ver Facturas</button>
+  <h3>Facturas</h3>
+  <ng-container >
+    <div class="col-md-12">
+      <table class="table table-striped mt-4 col-md-5">
+        <thead>
+          <tr>
+            <th scope="col">Numero Factura</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Identificacion</th>
+            <th scope="col">Fecha Venta</th>
+            <th scope="col">Total Venta</th>
+            <th scope="col">Fecha Entrega</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listToShow| slice: (page-1) * pageSize : page * pageSize; let i = index">
+            <td>{{item.id}}</td>
+            <td>{{item.nombre}}</td>
+            <td>{{item.apellido}}</td>
+            <td>{{item.identificacion}}</td>
+            <td>{{item.fechaVenta}}</td>
+            <td>{{item.totalVenta}}</td>
+            <td>{{item.fechaEntrega}}</td>
+            <td><button (click)="open(content); showbillDetail(i)" class="btn btn-outline-danger">
+                <fa-icon [icon]="faInfo"></fa-icon>
+              </button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ngb-pagination *ngIf="listToShow.length" [(page)]="page" [pageSize]="pageSize" [collectionSize]="listToShow.length">
+      </ngb-pagination>
+
+    </div>
+  </ng-container>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Detalle factura</h4>
+      <button type="button" class="close" aria-label="Close"
+        (click)="modal.dismiss('Cross click'); modal.close('Save click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+
+        <div>
+          <div>
+            <h5>Datos del cliente</h5>
+          </div>
+          <div>
+            <div>
+              <label>{{bills[index].nombre}} {{bills[index].apellido}}</label>
+            </div>
+
+          </div>
+          <div>
+            <table class="table table-striped mt-4 col-md-5">
+              <thead>
+                <tr>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Precio unitario</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of bills[index].detalleFactura| slice: (page-1) * pageSize : page * pageSize; let i = index">
+                  <td>{{product.producto.nombre}}</td>
+                  <td>{{product.producto.valorVentaConIva}}</td>
+                  <td>{{product.cantidad}}</td>
+                  <td>{{product.valorTotalProducto}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label>Precio total: <strong>{{bills[index].totalVenta}}</strong></label>
+        </div>
+
+      </form>
+    </div>
+  </ng-template>
+
+</div>
